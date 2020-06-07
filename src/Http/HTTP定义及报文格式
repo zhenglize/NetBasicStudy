@@ -1,0 +1,44 @@
+
+                                HTTP定义
+  Hypertext Transfer Protocol，超文本传输协议，和HTML(Hypertext Markup Language 超文本标记语⾔) 一起诞⽣，
+用于在网络上请求和传输HTML内容。
+  超文本，即「扩展型⽂文本」，指的是HTML中可以有链向别的文本的链接（hyperlink）。
+
+                                HTTP的工作方式
+  浏览器：
+  用户输入地址后回车或点击链接 -> 浏览器拼装 HTTP 报文并发送请求给服务器 -> 服务器处理请求后发送响应报文给浏览器
+   -> 浏览器解析响应报文并使⽤用渲染引擎显示到界面
+  手机App：
+  用户点击或界面自动触发联网需求 -> Android 代码调用拼装 HTTP 报文并发送请求到服务器 ->
+  服务器处理请求后发送响应报文给手机 -> Android 代码处理响应报文并作出相应处理（如储存数据、加工数据显示数据但界面)
+                                URL和HTTP报文
+  URL 格式
+  三部分：协议类型、服务器地址(和端口号)、路径(Path)
+      协议类型://服务器地址[:TCP端口号]/路径
+  比如:   http://baidu.com/users?gender=male
+
+  HTTP请求报文格式
+  请求行--------       GET(请求方式Method)  /users(路径path)  HTTP1.1(HTTP版本 HTTP version)
+  请求头--------       Host: api.github.com
+                      Content-type:text/html
+                      Content-length:100
+                      ...
+  请求体--------       bodybodybodybodybodybodybody
+                      bodybodybodybodybodybodybody
+
+  HTTP响应报文的格式
+  状态行--------       HTTP/1.1(HTTP版本 HTTP version)  200(返回码)  OK(对返回码简单的描述)
+  Headers------       Content-type:application/json charset=utf8
+  Body---------       JSON数据
+
+
+
+
+
+
+
+
+
+
+
+
