@@ -1,0 +1,60 @@
+HTTP的请求方法
+
+GET
+●用于获取资源
+●对服务器数据不进行修改
+●不发送Body
+●幂等的，查多少次得到的结果是相同的就是幂等的
+
+GET /users/1 HTTP/1.1
+Host: api.github.com
+
+对应的Retrofit代码
+@GET("/users/{id}")
+Call<User> getUser(@Path("id") String id, @Query("gender") String gender);
+
+POST
+●用于增加和修改资源
+●发送给服务器的内容写在body里面
+●不是幂等的
+
+POST /users HTTP/1.1
+Host: api.github.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 13
+name=rengwuxian&gender=male
+
+对应的Retrofit代码
+@FormUrlEncoded
+@POST("/users")
+Call<User> addUser(@Field("name") String name, @Field("gender") String gender);
+
+PUT
+●用于修改资源
+●发送给服务器的内容写在body里面
+●幂等的
+PUT /users/1 HTTP/1.1
+Host: api.github.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 13
+gender=female
+
+对应的Retrofit代码
+@FormUrlEncoded
+@PUT("/users/{id}")
+Call<User> updateGender(@Path("id") String id, @Field("gender") String gender);
+
+DELETE
+●用于删除资源
+●不发送body
+
+DELETE /users/1 HTTP/1.1
+Host: api.github.com
+
+对应的Retrofit代码
+@DELETE("/users/{id}")
+Call<User> getUser(@Path("id") String id, @Query("gender") String gender);
+
+HEAD
+●和GET的使用方法完全相同
+●唯一的区别在于返回的内容没有body
