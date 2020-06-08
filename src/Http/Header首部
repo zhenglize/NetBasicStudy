@@ -1,0 +1,151 @@
+Header 首部
+作⽤：HTTP 消息的 metadata(元信息)，可以理解为数据的数据，用来描述返回数据的数据信息
+
+Host
+⽬标主机。注意：不是在网络上用于寻址的，⽽是在目标服务器上用于定位子服务器的。
+
+Content-Type
+指定Body的类型。主要有四类：
+
+1. text/html
+请求Web⻚面是返回响应的类型，Body中返回html文本。格式如下：
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 853
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+。。。
+
+2.x-www-form-urlencoded
+用于Web⻚面纯文本表单的提交⽅式。
+格式如下：
+POST /users HTTP/1.1
+Host: api.github.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 27
+name=rengwuxian&gender=male
+对应的Retrofit代码
+@FormUrlEncoded
+@POST("/users")
+Call<User> addUser(@Field("name") String name, @Field("gender") String gender);
+
+3. multitype/form-data
+Web 页面含有二进制文件时的提交方式。
+POST /users HTTP/1.1
+Host: hencoder.com
+Content-Type: multipart/form-data; boundary=----
+WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Length: 2382
+
+对应的Retrofit代码为
+@Multipart
+@POST("/users")
+Call<User> addUser(@Part("name") RequestBody name, @Part("avatar") RequestBody avatar);
+...
+RequestBody namePart = RequestBody.create(MediaType.parse("text/plain"),nameStr);
+RequestBody avatarPart = RequestBody.create(MediaType.parse("image/jpeg"),avatarFile);
+api.addUser(namePart, avatarPart);
+
+4. application/json , image/jpeg , application/zip ...
+单项内容（⽂本或非文本都可以），⽤用于 Web Api 的响应或者 POST / PUT 的请求
+请求中提交json
+POST /users HTTP/1.1
+Host: hencoder.com
+Content-Type: application/json; charset=utf-8
+Content-Length: 38
+{"name":"rengwuxian","gender":"male"}
+
+对应的Retrofit代码
+@POST("/users")
+Call<User> addUser(@Body("user") User user);
+...
+// 需要使用JSON相关的转换
+api.addUser(user);
+
+相应中返回JSON
+HTTP/1.1 200 OK
+content-type: application/json; charset=utf-8
+content-length: 234
+[{"login":"mojombo","id":1,"node_id":"MDQ6VXNl
+cjE=","avatar_url":"https://avatars0.githubuse
+rcontent.com/u/1?v=4","gravat......
+
+对应的Retrofit代码
+@POST("users/{id}/avatar")
+Call<User> updateAvatar(@Path("id") String id, @Body RequestBody avatar);
+...
+RequestBody avatarBody = RequestBody.create(MediaType.parse("image/jpeg"),avatarFile);
+api.updateAvatar(id, avatarBody)
+
+请求中直接提交图片的二进制内容
+POST /user/1/avatar HTTP/1.1
+Host: hencoder.com
+Content-Type: image/jpeg
+Content-Length: 1575
+JFIFHH9......
+
+响应的二进制代码
+HTTP/1.1 200 OK
+content-type: image/jpeg
+content-length: 1575
+JFIFHH9......
+
+Content-Length
+指定Body的长度（字节）。
+Transfer:chunked (分块传输编码 Chunked Transfer Encoding)
+用于当响应发起时，内容⻓度还没能确定的情况下，和Content-Length 不同时使用。用途是尽早给出响应，减少用户等待。
+格式：
+HTTP/1.1 200 OK
+Content-Type: text/html
+Transfer-Encoding: chunked
+4
+Chun
+9
+ked Trans
+12
+fer Encoding
+0
+传输结束的标志是0加上换行符
+
+Location
+指定重定向的目标URL
+
+User-Agent
+用户代理，即是谁实际发送请求、接受响应的，例如手机浏览器、某款手机 App。
+
+Range / Accept-Range
+按范围取数据
+Accept-Range: bytes 响应报文中出现，表示服务器支持按字节来取范围数据
+Range: bytes=<start>-<end> 请求报文中出现，表示要取哪段数据
+Content-Range:<start>-<end>/total 响应报文中出现，表示发送的是哪段数据
+作用:为断点续传和多线程下载
+
+其他 Headers
+Accept: 客户端能接受的数据类型。如 text/html
+Accept-Charset: 客户端接受的字符集。如 utf-8
+Accept-Encoding: 客户端接受的压缩编码类型。如 gzip
+Content-Encoding：压缩类型。如 gzip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
