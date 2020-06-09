@@ -1,0 +1,20 @@
+Cookie
+
+起源：「购物⻋」功能的需求，由 Netscape 浏览器开发团队打造。
+
+工作机制：
+
+1. 服务器需要客户端保存的内容，放在Set-Cookie headers 里返回，客户端会自动保存。
+
+2. 客户端保存的 Cookies，会在之后的所有请求里都携带进Cookie header 里发回给服务器。
+
+3. 客户端保存 Cookie 是按照服务器域名来分类的，例如 shop.com 发回的 Cookie 保存下来
+以后，在之后向 games.com 的请求中并不会携带。
+
+4. 客户端保存的 Cookie 在超时后会被删除、没有设置超时间的 Cookie（称作 Session Cookie）
+在浏览器关闭后就会自动删除；另外，服务器也可以主动删除还未过期的客户端Cookies。
+
+Cookie 的作用
+会话管理：登录状态、购物车
+个性化：用户偏好、主题
+Tracking：分析用户行为
