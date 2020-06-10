@@ -3,6 +3,9 @@
   Hypertext Transfer Protocol，超文本传输协议，和HTML(Hypertext Markup Language 超文本标记语⾔) 一起诞⽣，
 用于在网络上请求和传输HTML内容。
   超文本，即「扩展型⽂文本」，指的是HTML中可以有链向别的文本的链接（hyperlink）。
+  
+  HTTP1.1相对于HTTP1.0增加了长连接机制。避免了三次握手建立连接，四次挥手释放连接的性能，
+  但同时给服务器造成了压力
 
                                 HTTP的工作方式
   浏览器：
